@@ -6,4 +6,8 @@ const fs = require("fs");
 const textIn = fs.readFileSync("./txt/input.txt", "utf-8"); // Sync stands for synchronous (vs asynchronous)
 // this takes two arguments: first is the path to th file we're reading, second we deefine the character encoding
 // calling this function will rread the data we're giving to it and return it to us, and we need to save this into a variable
-console.log(textIn);
+
+const textOut = `This is what we know about the avocado: ${textIn}.\nCreated on ${Date.now()}`;
+// now create a new file:
+fs.writeFileSync("./txt/output.txt", textOut); // this doesn't return anything meaningful, so we don't save it to any variable
+console.log("File written!");
