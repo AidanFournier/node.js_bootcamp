@@ -9,16 +9,16 @@ const { reset } = require("nodemon");
 
 // ------------- FILES
 
-//Blocking, synchronous way
-const textIn = fs.readFileSync("./txt/input.txt", "utf-8"); // Sync stands for synchronous (vs asynchronous)
-// this takes two arguments: first is the path to th file we're reading, second we deefine the character encoding
-// calling this function will rread the data we're giving to it and return it to us, and we need to save this into a variable
-// this is synchronous in nature; each statement is processes one after another, line by line
+// //Blocking, synchronous way
+// const textIn = fs.readFileSync("./txt/input.txt", "utf-8"); // Sync stands for synchronous (vs asynchronous)
+// // this takes two arguments: first is the path to th file we're reading, second we deefine the character encoding
+// // calling this function will rread the data we're giving to it and return it to us, and we need to save this into a variable
+// // this is synchronous in nature; each statement is processes one after another, line by line
 
-const textOut = `This is what we know about the avocado: ${textIn}.\nCreated on ${Date.now()}`;
-// now create a new file:
-fs.writeFileSync("./txt/output.txt", textOut); // this doesn't return anything meaningful, so we don't save it to any variable
-console.log("File written!");
+// const textOut = `This is what we know about the avocado: ${textIn}.\nCreated on ${Date.now()}`;
+// // now create a new file:
+// fs.writeFileSync("./txt/output.txt", textOut); // this doesn't return anything meaningful, so we don't save it to any variable
+// console.log("File written!");
 
 // Synchronous vs. Asynchronous
 
@@ -74,6 +74,16 @@ console.log("File written!");
 // first we create the server, then we start the server so that it can actually listen to incoming requests
 // createServer accepts a callback request that will be fired off any time a new request hits our server
 
-http.createServer((req, res) => {
-    res.end('Hello from the server!'); // .end is the simplest way to send back a response 
-})
+// 1. Create server
+const server = http.createServer((req, res) => {
+;    res.end('Hello from the server!'); // .end is the simplest way to send back a response 
+});
+
+// 2. Listen for requests on local host IP
+server.listen(8000, '127.0.0.1', () => {
+    console.log('Listening to requests on Port 8000');
+}) 
+// first parameter is the port, can accept different kinds
+// 2nd is local host (current program), current computer in use
+// 127.0.0.1 is standard IP address for local host
+// third param is a callback function that will be run as soon as server starts listening
