@@ -3,6 +3,12 @@ const fs = require("fs");
 // by using this module, we will get access to functions for reading and writing data
 // this module will return an object for which there are lots of functions we can used, stored in the fs variable
 
+const http = require('http');
+const { reset } = require("nodemon");
+// this is a built-in module that gives us networking capabilities and will allow uss to build a server
+
+// ------------- FILES
+
 //Blocking, synchronous way
 const textIn = fs.readFileSync("./txt/input.txt", "utf-8"); // Sync stands for synchronous (vs asynchronous)
 // this takes two arguments: first is the path to th file we're reading, second we deefine the character encoding
@@ -45,20 +51,29 @@ console.log("File written!");
 // the second param is the data itself
 // when called, this function starts reading the file 'start.txt' without disrupting the rest of the code
 
-fs.readFile('./txt/start.txt', 'utf-8', (err, data1) => {
-    // if (err) return console.log('Error!!');
-    fs.readFile(`./txt/${data1}.txt`, 'utf-8', (err, data2) => {
-        console.log(data2);
-        fs.readFile('./txt/append.txt', 'utf-8', (err, data3) => {
-            console.log(data3);
-            // now to write a file:
-            fs.writeFile('./txt/final.txt', `${data2}\n${data3}`, 'utf-8', err => {
-                console.log('Your file has been written :)');
-            })
-        });
-    });
-});
+// fs.readFile('./txt/start.txt', 'utf-8', (err, data1) => {
+//     // if (err) return console.log('Error!!');
+//     fs.readFile(`./txt/${data1}.txt`, 'utf-8', (err, data2) => {
+//         console.log(data2);
+//         fs.readFile('./txt/append.txt', 'utf-8', (err, data3) => {
+//             console.log(data3);
+//             // now to write a file:
+//             fs.writeFile('./txt/final.txt', `${data2}\n${data3}`, 'utf-8', err => {
+//                 console.log('Your file has been written :)');
+//             })
+//         });
+//     });
+// });
 
 // data1 will be start.txt, which contains 'read-this'
 // that will then make up the file name in the next level
 // next step: there is some info in the append file that we want to add to this text
+
+// ------------- SERVER
+
+// first we create the server, then we start the server so that it can actually listen to incoming requests
+// createServer accepts a callback request that will be fired off any time a new request hits our server
+
+http.createServer((req, res) => {
+    res.end('Hello from the server!'); // .end is the simplest way to send back a response 
+})
