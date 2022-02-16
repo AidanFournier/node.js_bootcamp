@@ -7,6 +7,8 @@ const http = require('http');
 const { reset } = require("nodemon");
 // this is a built-in module that gives us networking capabilities and will allow uss to build a server
 
+const url = require('url');
+
 // ------------- FILES
 
 // //Blocking, synchronous way
@@ -76,7 +78,22 @@ const { reset } = require("nodemon");
 
 // 1. Create server
 const server = http.createServer((req, res) => {
-;    res.end('Hello from the server!'); // .end is the simplest way to send back a response 
+    const pathName = req.url;
+
+    if (pathName === '/' || pathName === '/overview') {
+        res.end('This is the overview');
+    } else if (pathName === '/product') {
+        res.end('This is the product');
+    } else {
+        res.writeHead(404, {
+            // what is a header? http header is a piece of info about the response we are sending back
+            // always send headers before the response content (res.end)
+            'Content-type': 'text/html',
+            'my-own-header': 'hello-world'
+        });
+        res.end('<h1>Page not found!</h1>');
+    }
+// res.end('Hello from the server!'); // .end is the simplest way to send back a response 
 });
 
 // 2. Listen for requests on local host IP
@@ -87,3 +104,10 @@ server.listen(8000, '127.0.0.1', () => {
 // 2nd is local host (current program), current computer in use
 // 127.0.0.1 is standard IP address for local host
 // third param is a callback function that will be run as soon as server starts listening
+
+// ------------- ROUTESs
+// Express will help us with more complex routing in future
+// for now, we'll do simple routing
+// first step is to be able to analyze the url; for that, we use another built-in node module (line 11)
+// url mod parses values at end of url into nicely formatted objects
+// for routing, all we need is a big if/else statment
