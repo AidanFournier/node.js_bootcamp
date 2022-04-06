@@ -76,7 +76,7 @@ const url = require('url');
 // first we create the server, then we start the server so that it can actually listen to incoming requests
 // createServer accepts a callback request that will be fired off any time a new request hits our server
 
-// 1. Create server
+// 1. Create server/API
 const server = http.createServer((req, res) => {
     const pathName = req.url;
 
@@ -84,6 +84,8 @@ const server = http.createServer((req, res) => {
         res.end('This is the overview');
     } else if (pathName === '/product') {
         res.end('This is the product');
+    } else if (pathName === '.api') {
+        res.end('API');
     } else {
         res.writeHead(404, {
             // what is a header? http header is a piece of info about the response we are sending back
