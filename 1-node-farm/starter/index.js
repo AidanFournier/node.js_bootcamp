@@ -77,6 +77,12 @@ const url = require('url');
 // createServer accepts a callback request that will be fired off any time a new request hits our server
 
 // 1. Create server/API
+
+// the code executed outside of the callback function (the top-level code) is only executed once we start the program, so it doesn't matter if it blocks the execution (its synchronous)
+
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
+const dataObj = JSON.parse(data);
+
 const server = http.createServer((req, res) => {
     const pathName = req.url;
 
@@ -84,8 +90,12 @@ const server = http.createServer((req, res) => {
         res.end('This is the overview');
     } else if (pathName === '/product') {
         res.end('This is the product');
-    } else if (pathName === '.api') {
-        res.end('API');
+    } else if (pathName === '/api') {
+
+            // we now have access to this data, which is currently in json
+            res.writeHead(200, { 'Content-type': 'application/json' })
+            res.end(data);
+
     } else {
         res.writeHead(404, {
             // what is a header? http header is a piece of info about the response we are sending back
