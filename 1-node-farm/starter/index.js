@@ -2,12 +2,12 @@ const fs = require("fs");
 // fs stands for file system
 // by using this module, we will get access to functions for reading and writing data
 // this module will return an object for which there are lots of functions we can used, stored in the fs variable
-
 const http = require('http');
 const { reset } = require("nodemon");
 // this is a built-in module that gives us networking capabilities and will allow uss to build a server
-
 const url = require('url'); // used to parse varibles right off the url
+
+const slugify = require('slugify'); // slug is last part of url that contains a unique string that identifies the resource the website is displaying
 
 const replaceTemplate = require('./modules/replaceTemplate');
 
@@ -88,6 +88,8 @@ const tempProduct= fs.readFileSync(`${__dirname}/templates/template-product.html
 
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8');
 const dataObj = JSON.parse(data);
+
+const slugs = dataObj.map(el => slugify(el.productName, { lower: true }));
 
 const server = http.createServer((req, res) => {
    
