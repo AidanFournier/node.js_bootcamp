@@ -9,6 +9,8 @@ const { reset } = require("nodemon");
 
 const url = require('url'); // used to parse varibles right off the url
 
+const replaceTemplate = require('./modules/replaceTemplate');
+
 // ------------- FILES
 
 // //Blocking, synchronous way
@@ -79,20 +81,6 @@ const url = require('url'); // used to parse varibles right off the url
 // 1. Create server/API
 
 // the code executed outside of the callback function (the top-level code) is only executed once we start the program, so it doesn't matter if it blocks the execution (its synchronous)
-
-const replaceTemplate = (temp, product) => {
-    let output = temp.replace(/{%PRODUCTNAME%}/g, product.productName);
-    output = output.replace(/{%IMAGE%}/g, product.image);
-    output = output.replace(/{%PRICE%}/g, product.price);
-    output = output.replace(/{%FROM%}/g, product.from);
-    output = output.replace(/{%NUTRIENTS%}/g, product.nutrients);
-    output = output.replace(/{%QUANTITY%}/g, product.quantity);
-    output = output.replace(/{%QUANTITY%}/g, product.quantity);
-    output = output.replace(/{%ID%}/g, product.id);
-
-    if(!product.organic) output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic');
-    return output;
-}
 
 const tempOverview = fs.readFileSync(`${__dirname}/templates/template-overview.html`, 'utf-8');
 const tempCard = fs.readFileSync(`${__dirname}/templates/template-card.html`, 'utf-8');
