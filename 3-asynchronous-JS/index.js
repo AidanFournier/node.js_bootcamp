@@ -5,14 +5,24 @@ fs.readFile(`${__dirname}/dog.txt`, (err, data) => {
     console.log(`Breed: ${data}`);
 
     superagent
-        .get(`https://dog.ceo/api/breed/${data}/images/random`)
-        .end((err, res) => {
-            if (err) return console.log(err.message)
+        .get(`https://dog.ceo/api/breed/${data}/images/random`) // this method actually returns a promise
+        // a promise basically implements the concept of a future value, a vlue we're expecting to receive in the future
+        // "Hey server, plese get me a dog image in the background and then let me know when you're ready and give me that data back"
+        // at this point, it's a pending promise
+        // next we need to consume it (.then)
+        // we pass .then a callback function, which is called as soon as the promise has come back with the data
+        // but this is still callbacks? How does this help callback hell? Already it's helping because we can chain then instead of nesting
+        // when a promise comes back with the data it becomes a resolved promise; might not lway be ssuccessful, could be error, so we say a resolved promise can either be fulfilled or rejected
+        //.then only deals with fulfilled promises; we can use catch for the others
+        .then(res => {
             console.log(res.body.message);
 
             fs.writeFile('dog-img.txt', res.body.message, err => {
                 if (err) return console.log(err.message)
                 console.log("random dog image saved to file")
             });
-        });
-})
+        })
+        .catch(err => {
+            console.log(err.message)s
+        })
+});
