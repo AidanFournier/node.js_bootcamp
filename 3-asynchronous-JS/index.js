@@ -21,20 +21,44 @@ const writeFilePromise = (file, data) => {
     });
 }
 
-readFilePromise(`${__dirname}/dog.txt`).then(data => {
-    console.log(`Breed: ${data}`);
-    return superagent
-        .get(`https://dog.ceo/api/breed/${data}/images/random`)
-}).then(res => {
-    console.log(res.body.message);
-    return writeFilePromise('dog-img.txt', res.body.message)
-})
-.then(() => {
-    console.log("random dog image saved to file")
-})
-.catch(err => {
-    console.log(err.message)
-})
+// #4: Async/Await
+// async: code that keeps running in the background, without blocking event loop
+// point is to make our ccode look more synchronous while actually being async behing the scenes
+
+
+const getDogPic = async () => {
+    try {
+        const data = await readFilePromise(`${__dirname}/dog.txt`);
+        console.log(`Breed: ${data}`);
+
+        const res = await superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+        console.log(res.body.message);
+
+        await writeFilePromise('dog-img.txt', res.body.message);
+        console.log("random dog image saved to file");
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+getDogPic();
+
+// #3.2
+// readFilePromise(`${__dirname}/dog.txt`)
+// .then(data => {
+//     console.log(`Breed: ${data}`);
+//     return superagent
+//         .get(`https://dog.ceo/api/breed/${data}/images/random`)
+// }).then(res => {
+//     console.log(res.body.message);
+//     return writeFilePromise('dog-img.txt', res.body.message)
+// })
+// .then(() => {
+//     console.log("random dog image saved to file")
+// })
+// .catch(err => {
+//     console.log(err.message)
+// })
 
 
 // #2
