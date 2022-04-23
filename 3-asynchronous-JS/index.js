@@ -39,7 +39,9 @@ const getDogPic = async () => {
     } catch (err) {
         console.log(err);
     }
-}
+};
+
+console.log('1: Will get dg pic!')
 
 getDogPic();
 
