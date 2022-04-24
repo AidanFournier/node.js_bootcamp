@@ -38,12 +38,39 @@ const getDogPic = async () => {
         console.log("random dog image saved to file");
     } catch (err) {
         console.log(err);
+        throw(err);
     }
+
+    return '2: READY'
 };
 
-console.log('1: Will get dg pic!')
+// #5.2 Using value returned from async functions, using async/await
+// we don't want to created another named function, so we're going to use us an immediately invoked function expression ('iffy??')
+// in parentheses we define our function, then we call it right away
 
-getDogPic();
+(async () => {
+    try {
+        console.log('1: Will get dog pic!');
+        const x = await getDogPic();
+        console.log(x);
+        console.log('3: Done getting dog pic!');
+    } catch(err) {
+        console.log ("Error!!!");
+    }
+})();
+
+// #5.1 Using value returned from async function, using promises and .then
+
+// console.log('1: Will get dog pic!')
+// getDogPic().then(x => {
+//     console.log(x);
+//     console.log('3: Done getting dog pic!');
+// })
+// .catch(err => {
+//     console.log ("Error!!!");
+// })
+
+
 
 // #3.2
 // readFilePromise(`${__dirname}/dog.txt`)
