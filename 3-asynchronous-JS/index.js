@@ -31,10 +31,18 @@ const getDogPic = async () => {
         const data = await readFilePromise(`${__dirname}/dog.txt`);
         console.log(`Breed: ${data}`);
 
-        const res = await superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
-        console.log(res.body.message);
+        // this returns a promise, and if we don't 'await' it, iit will sve the promise to this variable
+        const res1Promise = superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
 
-        await writeFilePromise('dog-img.txt', res.body.message);
+        const res2Promise = superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+
+        const res3Promise = superagent.get(`https://dog.ceo/api/breed/${data}/images/random`);
+
+        const all = await Promise.all([res1Promise, res2Promise, res3Promise]);
+        const imgs = all.map(el => el.body.message)
+        console.log(imgs);
+
+        await writeFilePromise('dog-img.txt', imgs.join('\n')); // '\n' will put each string in a new line
         console.log("random dog image saved to file");
     } catch (err) {
         console.log(err);
