@@ -1,10 +1,15 @@
 const fs = require('fs');
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
 // this is middleware, which is a function that can modify the incming request data
 // called middleware because it stands between the request and the response
 // in the case of our post request, it's being used so that the data from the body is added to the request object
+
+// Using third-party middleware:
+app.use(morgan('dev'));
+
 app.use(express.json());
 
 // let's create our own middleware:
@@ -129,6 +134,8 @@ app
     .patch(updateTour)
     .delete(deleteTour);
 
+
+// Start server:
 const port = 3000;
 app.listen(port, () => {
     console.log(`App running on ${port}`);
