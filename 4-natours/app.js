@@ -2,11 +2,24 @@ const fs = require('fs');
 const express = require('express');
 
 const app = express();
-
 // this is middleware, which is a function that can modify the incming request data
 // called middleware because it stands between the request and the response
 // in the case of our post request, it's being used so that the data from the body is added to the request object
 app.use(express.json());
+
+// let's create our own middleware:
+app.use((req, res, next) => { // by adding 'next'/any third argument, express now knows we're defining our own middleware
+    console.log('Hello from the middleware ');
+    next(); // never forget to call next, or the whole loop stops
+})
+// this middleware applies to every single request, at the top it is global
+// if we put it in between some routes, it would only be called if a request came in for a route after it (location matters!)
+
+// another middleware function, this time manipulating the req object:
+app.use((req, res, next) => {
+    req.requestTtime = new Date().toISOString();
+    next();
+})
 
 const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
@@ -15,8 +28,10 @@ const tours = JSON.parse(
 
 // Route handlers:
 const getAllTours = (req, res) => {
+    console.log(req.requestTtime);
     res.status(200).json({
         status: 'success',
+        requestedAt: req.requestTtime,
         results: tours.length,
         data: {
             tours
