@@ -1,13 +1,13 @@
+// each router is lke a mini-application unto itelf, one for each resource
+
 const express = require('express');
 const tourController = require('./../controllers/tourController');
 
 // Routes:
 const router = express.Router();
 
-router.param('id', (req, res, next, val) => {
-    console.log(`Tour id is: ${id}`);
-    next();
-})
+// Middleware function, only applied to tour router since we're inside that 'mini-app':
+router.param('id', tourController.checkID);
 
 router
     .route('/')
