@@ -11,8 +11,8 @@ const app = express();
 
 // Using third-party middleware:
 app.use(morgan('dev'));
-
 app.use(express.json());
+app.use(express.static(`${__dirname}/public`));
 
 // let's create our own middleware:
 app.use((req, res, next) => { // by adding 'next'/any third argument, express now knows we're defining our own middleware
