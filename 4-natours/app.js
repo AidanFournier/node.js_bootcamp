@@ -1,3 +1,5 @@
+// everything not related to express, we'll do outside of the app.js file
+
 const express = require('express');
 const morgan = require('morgan');
 
@@ -10,7 +12,10 @@ const app = express();
 // in the case of our post request, it's being used so that the data from the body is added to the request object
 
 // Using third-party middleware:
-app.use(morgan('dev'));
+if(process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'))
+};
+
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
