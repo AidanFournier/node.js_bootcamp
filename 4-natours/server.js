@@ -36,6 +36,19 @@ const tourSchema = new mongoose.Schema({
 
 const Tour = mongoose.model('Tour', tourSchema);
 
+// Create a new document out of the Tour model
+const testTour = new Tour({
+    name: 'The Park Camper',
+    price: 997
+})
+
+// Create an instance of the model by saving it:
+testTour.save().then(doc => {
+    console.log(doc);
+}).catch(err =>  {
+    console.log('Error! :', err);
+})
+
 // Start server:
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
