@@ -27,65 +27,64 @@ const Tour = require('../models/tourModel');
 
 // Route handlers/controllers:
 exports.getAllTours = (req, res) => {
-    console.log(req.requestTtime);
-    res.status(200).json({
-        status: 'success',
-        requestedAt: req.requestTtime,
-        // results: tours.length,
-        // data: {
-        //     tours
-        // }
-    })
+  console.log(req.requestTtime);
+  res.status(200).json({
+    status: 'success',
+    requestedAt: req.requestTtime,
+    // results: tours.length,
+    // data: {
+    //     tours
+    // }
+  });
 };
 
 exports.getTour = (req, res) => {
-    console.log(req.params);
-    const id = req.params.id * 1; // converts string to number
+  console.log(req.params);
+  const id = req.params.id * 1; // converts string to number
 
-    // const tour = tours.find(el => el.id === id)
- 
-    // res.status(200).json({
-    //     status: 'success',
-    //     data: {
-    //         tour
-    //     }
-    // })
+  // const tour = tours.find(el => el.id === id)
+
+  // res.status(200).json({
+  //     status: 'success',
+  //     data: {
+  //         tour
+  //     }
+  // })
 };
 
 exports.createTour = async (req, res) => {
-    try {
-        // const newTour = new Tour({});
-        // newTour.save();
+  try {
+    // const newTour = new Tour({});
+    // newTour.save();
 
-        const newTour = await Tour.create(req.body);
+    const newTour = await Tour.create(req.body);
 
-        res.status(201).json({
-            status: 'success',
-            data: {
-                tour: newTour
-            }
+    res.status(201).json({
+      status: 'success',
+      data: {
+        tour: newTour
+      },
     });
-    } catch (err) {
-        res.status(400).json({
-            status: 'fail',
-            message: err
-        })
-    };
+  } catch (err) {
+    res.status(400).json({
+      status: 'fail',
+      message: 'Invalid data sent!',
+    });
+  }
 };
 
 exports.updateTour = (req, res) => {
-
-    res.status(200).json({
-        status: "success",
-        data: {
-            tour: '<Updated tour here...>'
-        }
-    })
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tour: '<Updated tour here...>',
+    },
+  });
 };
 
 exports.deleteTour = (req, res) => {
-    res.status(204).json({
-        status: "success",
-        data: null
-    })
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
 };
